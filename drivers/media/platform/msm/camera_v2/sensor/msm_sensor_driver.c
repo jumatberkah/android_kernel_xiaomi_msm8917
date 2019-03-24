@@ -1484,6 +1484,9 @@ CSID_TG:
 	msm_sensorid_init_device_name();
 	msm_sensor_set_sesnor_id(s_ctrl);
 
+	msm_sensorid_init_device_name();
+	msm_sensor_set_sesnor_id(s_ctrl);
+
 	/*
 	 * Update the subdevice id of flash-src based on availability in kernel.
 	 */
