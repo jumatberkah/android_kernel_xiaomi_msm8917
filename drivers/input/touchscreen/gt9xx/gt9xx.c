@@ -36,7 +36,7 @@ char fw_version[64];
 char gt9xx_tp_lockdown_info[128];
 u16 version_info;
 unsigned char get_lockdown_info(struct i2c_client *client, char *pProjectCode);
-extern char g_lcd_id[128];
+char g_lcd_id[128];
 #if GTP_CHARGER_SWITCH
 extern bool g_charger_present;
 static int clk_tick_cnt_charger = 200;

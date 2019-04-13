@@ -140,6 +140,7 @@ extern u16 total_len;
 extern int gtp_rst_gpio;
 extern int gtp_int_gpio;
 extern char gt9xx_tp_lockdown_info[128];
+extern char g_lcd_id[128];
 extern u16 version_info;
 extern char product_id[GTP_PRODUCT_ID_MAXSIZE];
 extern char fw_version[64];
