@@ -80,10 +80,6 @@ void set_power_on_alarmExt(long secs, bool enable)
 	struct alarm_base *base = &alarm_bases[ALARM_POWEROFF_REALTIME];
 	#endif
 
-
-	rc = mutex_lock_interruptible(&power_on_alarm_lock);
-	if (rc != 0)
-		return;
 	#if 0
 	spin_lock_irqsave(&base->lock, flags);
 	next = timerqueue_getnext(&base->timerqueue);
@@ -108,10 +104,6 @@ void set_power_on_alarmExt(long secs, bool enable)
 	if (alarm_secs <= wall_time.tv_sec + 1)
 		goto disable_alarm;
 
-	rtc = alarmtimer_get_rtcdev();
-	if (!rtc)
-		goto exit;
-
 	rtc_read_time(rtc, &rtc_time);
 	rtc_tm_to_time(&rtc_time, &rtc_secs);
 	alarm_delta = wall_time.tv_sec - rtc_secs;
@@ -123,13 +115,10 @@ void set_power_on_alarmExt(long secs, bool enable)
 	if (rc)
 		goto disable_alarm;
 
-	mutex_unlock(&power_on_alarm_lock);
 	return;
 
 disable_alarm:
 	rtc_alarm_irq_enable(rtcdev, 0);
-exit:
-	mutex_unlock(&power_on_alarm_lock);
 }
 
 
@@ -638,7 +627,7 @@ EXPORT_SYMBOL_GPL(alarm_forward_now);
  * clock2alarm - helper that converts from clockid to alarmtypes
  * @clockid: clockid.
  */
-static enum alarmtimer_type clock2alarm(clockid_t clockid)
+enum alarmtimer_type clock2alarm(clockid_t clockid)
 {
 	if (clockid == CLOCK_REALTIME_ALARM)
 		return ALARM_REALTIME;
